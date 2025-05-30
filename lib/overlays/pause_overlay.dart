@@ -1,4 +1,3 @@
-// lib/overlays/pause_overlay.dart
 import 'package:flutter/material.dart';
 import '../game/ball_collector_game.dart';
 

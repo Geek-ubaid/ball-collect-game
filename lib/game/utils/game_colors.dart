@@ -1,4 +1,3 @@
-// lib/game/utils/game_colors.dart
 import 'package:flutter/material.dart';
 import 'dart:math';
 

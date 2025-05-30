@@ -1,4 +1,3 @@
-// lib/game/components/ball_component.dart
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';

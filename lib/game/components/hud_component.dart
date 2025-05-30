@@ -1,4 +1,3 @@
-// lib/game/components/hud_component.dart
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 import '../ball_collector_game.dart';
@@ -44,7 +43,7 @@ class HudComponent extends PositionComponent with HasGameRef<BallCollectorGame> 
         text: 'II', // Pause symbol
         textRenderer: TextPaint(style: _textStyle.copyWith(fontSize: 28, fontWeight: FontWeight.bold)),
         anchor: Anchor.topRight,
-        position: Vector2(gameRef.size.x - 10, 50) // Or some other distinct position
+        position: Vector2(gameRef.size.x - 10, 50)
     );
 
 

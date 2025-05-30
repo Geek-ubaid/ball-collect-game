@@ -1,4 +1,3 @@
-// lib/main.dart
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'game/ball_collector_game.dart';
@@ -12,9 +11,9 @@ void main() {
   final game = BallCollectorGame();
 
   runApp(
-    MaterialApp( // MaterialApp needed for overlay's Material widgets
+    MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold( // Scaffold provides a base for GameWidget
+      home: Scaffold(
         body: GameWidget<BallCollectorGame>(
           game: game,
           overlayBuilderMap: {
@@ -22,7 +21,6 @@ void main() {
             GameOverOverlay.id: (context, game) => GameOverOverlay(game: game),
             PauseOverlay.id: (context, game) => PauseOverlay(game: game),
           },
-          // No initialActiveOverlays, game logic will show MainMenuOverlay
         ),
       ),
     ),

@@ -1,4 +1,3 @@
-// lib/overlays/main_menu_overlay.dart
 import 'package:flutter/material.dart';
 import '../game/ball_collector_game.dart';
 import '../game/utils/highscore_manager.dart';

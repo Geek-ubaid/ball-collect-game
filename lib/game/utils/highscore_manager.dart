@@ -1,4 +1,3 @@
-// lib/game/utils/highscore_manager.dart
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HighScoreManager {

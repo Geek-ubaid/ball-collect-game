@@ -1,10 +1,9 @@
-// lib/game/ball_collector_game.dart
 import 'dart:async' as async_timer;
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart' show Color, Colors, Offset, Rect; // For Rect, Offset
+import 'package:flutter/material.dart' show Color, Rect;
 import 'components/ball_component.dart';
 import 'components/bucket_component.dart';
 import 'components/hud_component.dart';
@@ -27,7 +26,7 @@ class BallCollectorGame extends FlameGame
 
   GameState gameState = GameState.menu;
 
-  BucketComponent? _bucket; // <--- Make _bucket nullable
+  BucketComponent? _bucket;
   late HudComponent _hud;
   final Random _random = Random();
 
@@ -47,8 +46,7 @@ class BallCollectorGame extends FlameGame
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // camera.viewport = FixedAspectRatioViewport(aspectRatio: 9 / 16); // Example
-    // camera.viewfinder.anchor = Anchor.topLeft;
+
 
     _hud = HudComponent(); // Initialize HUD
     add(_hud); // Add HUD so it's always visible
@@ -107,18 +105,16 @@ void clearGameElements() {
   children.whereType<BallComponent>().forEach((component) => component.removeFromParent());
 
   // If the bucket exists and is part of the game, remove it
-  if (_bucket != null) { // Check if _bucket has been initialized
-    if (children.contains(_bucket!)) { // Then check if it's actually a child
+  if (_bucket != null) { 
+    if (children.contains(_bucket!)) {
       _bucket!.removeFromParent();
     }
-    _bucket = null; // Set to null after removal or if it wasn't a child but was initialized
+    _bucket = null;
   }
-  _stopBallSpawning(); // Stop any active ball spawning timers
+  _stopBallSpawning(); 
 }
   void _updateLevelSettings() {
-    // Ball speed increases (game gets harder)
-    // The prompt said "slow down" but typically speed increases.
-    // If "slow down" means *value* reduces, then `_ballBaseSpeed - (level -1) * X`
+    // ball speed increases with each level
     _ballBaseSpeed = 100.0 + (level - 1) * 20.0;
 
     // Spawn interval decreases (more balls, harder)
@@ -162,13 +158,11 @@ void clearGameElements() {
       ballColor = _bucket!.bucketColor;
       _ballsSpawnedSinceLastMatch = 0; // Reset counter
     } else {
-      // Spawn a random color, but try to make it different from the bucket if possible
-      // from the _availableBallColors for the current level.
-      List<Color> spawnOptions = List.from(_availableBallColors); // Create a mutable copy
-      if (spawnOptions.length > 1) { // Only try to exclude if there are other options
+      List<Color> spawnOptions = List.from(_availableBallColors); 
+      if (spawnOptions.length > 1) { 
         spawnOptions.remove(_bucket!.bucketColor);
       }
-      if (spawnOptions.isEmpty) { // Fallback if removing bucket color left no options (e.g. only 1 available color)
+      if (spawnOptions.isEmpty) { // fallback if no colors left
           ballColor = _bucket!.bucketColor;
       } else {
           ballColor = game_utils.getRandomGameColor(spawnOptions);
@@ -187,13 +181,13 @@ void clearGameElements() {
   }
 
   void handleBallCollected(BallComponent ball, BucketComponent bucket) {
-    if (gameState != GameState.playing || _bucket == null) return; // <--- Add null check for _bucket
+    if (gameState != GameState.playing || _bucket == null) return;
 
     if (ball.ballColor == bucket.bucketColor) {
       score += 10;
       correctBallsCollectedThisLevel++;
       _bucket!.changeColor(game_utils.getDifferentRandomGameColor(bucket.bucketColor, game_utils.gameColors));
-      _ballsSpawnedSinceLastMatch = 0; // <--- RESET HERE
+      _ballsSpawnedSinceLastMatch = 0;
       if (correctBallsCollectedThisLevel >= targetBallsForLevel) {
         _levelUp();
       }
@@ -208,22 +202,21 @@ void clearGameElements() {
   }
 
   void handleMissedBall(BallComponent ball) {
-  if (gameState != GameState.playing || _bucket == null) return; // <--- Add null check for _bucket
+  if (gameState != GameState.playing || _bucket == null) return;
 
-    if (ball.ballColor == _bucket!.bucketColor) { // Missed a correct ball
+    if (ball.ballColor == _bucket!.bucketColor) { // live lost for a match that was missed
       lives--;
       if (lives <= 0) _gameOver();
     }
     _hud.updateLives(lives);
-    // Ball removes itself in its update method
   }
 
   void _levelUp() {
     level++;
     score += 50; // Level completion bonus
     correctBallsCollectedThisLevel = 0;
-    _ballsSpawnedSinceLastMatch = 0; // <--- RESET HERE
-    _updateLevelSettings(); // This also updates HUD for level and target
+    _ballsSpawnedSinceLastMatch = 0;
+    _updateLevelSettings(); 
     _hud.updateScore(score);
 
     // Restart spawner with new interval
@@ -266,8 +259,6 @@ void clearGameElements() {
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
     if (gameState == GameState.playing || gameState == GameState.paused) {
-      // Define a tappable area for the pause button (e.g., around the HUD pause text)
-      // This is a simplified hit detection for the text based pause button
       final pauseButtonArea = Rect.fromCenter(
         center: _hud.pauseButtonText.absolutePosition.toOffset() + _hud.pauseButtonText.size.toOffset() / 2,
         width: _hud.pauseButtonText.size.x + 20, // Add some padding
@@ -283,7 +274,6 @@ void clearGameElements() {
   @override
   void update(double dt) {
     super.update(dt);
-    // Game-wide update logic if necessary
   }
 
   @override
