@@ -47,5 +47,5 @@ ios/
 linux/
 windows/
 macos/
-android/
-web/
+/android/
+/web/
